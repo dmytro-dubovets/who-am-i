@@ -14,10 +14,16 @@ public class TurnImpl implements Turn {
 	public TurnImpl(List<Player> players) {
 		this.players = players;
 	}
-	
+
 	@Override
 	public Player getGuesser() {
-		return this.players.get(currentPlayerIndex);
+		if (this.players.size() > 0) {
+			if (!isValidIndex(this.players, currentPlayerIndex)) {
+				currentPlayerIndex = currentPlayerIndex - 1;
+			}
+			return this.players.get(currentPlayerIndex);
+		}
+		return null;
 	}
 
 	@Override
@@ -32,6 +38,8 @@ public class TurnImpl implements Turn {
 		this.currentPlayerIndex = this.currentPlayerIndex + 1 >= this.players.size() ? 0 : this.currentPlayerIndex + 1; 
 	}
 	
-	
+	private boolean isValidIndex(List<Player> players, int index) {
+        return index >= 0 && index < players.size();
+    }
 
 }

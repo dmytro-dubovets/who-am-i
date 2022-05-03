@@ -12,37 +12,39 @@ import com.eleks.academy.whoami.core.impl.RandomGame;
 import com.eleks.academy.whoami.core.impl.RandomPlayer;
 
 public class ServerImpl implements Server {
-
-	private List<String> characters = List.of("Batman", "Superman");
-	private List<String> questions = List.of("Am i a human?", "Am i a character from a movie?");
-	private List<String> guessess = List.of("Batman", "Superman");
-
-	private RandomGame game = new RandomGame(characters);
-
+	
+	List<String> characters = List.of("Bot", "Batman", "Superman", "Sakura");
+	
+	List<String> availableQuestions = List.of("Am I a human?", "Am I character from a movie?");
+	
+    List<String> availableGuesses = List.of("Bot", "Batman", "Superman", "Sakura");
+    
+	private Game game = new RandomGame(characters);
+	
 	private final ServerSocket serverSocket;
-
+	
 	public ServerImpl(int port) throws IOException {
 		this.serverSocket = new ServerSocket(port);
 	}
 
 	@Override
 	public Game startGame() throws IOException {
-		game.addPlayer(new RandomPlayer("Bot", questions, guessess));
+		game.addPlayer(new RandomPlayer("Bot", availableQuestions, availableGuesses));
 		System.out.println("Server starts");
-		System.out.println("Waiting for a client connect....");
+		System.out.println("Waiting for a client connect...");
 		return game;
 	}
 
 	@Override
 	public Socket waitForPlayer(Game game) throws IOException {
+		
 		return serverSocket.accept();
 	}
 
 	@Override
 	public void addPlayer(Player player) {
 		game.addPlayer(player);
-		System.out.println("Player: " + player.getName() + " Connected to the game!");
-
+		System.out.println("Player: " + player.getName() + " Connected to the game!");	
 	}
 
 	@Override

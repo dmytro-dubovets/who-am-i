@@ -13,10 +13,10 @@ public class RandomPlayer implements Player {
 	
 	public RandomPlayer(String name, List<String> availableQuestions, List<String> availableGuesses) {
 		this.name = name;
-		this.availableQuestions = new ArrayList<String>(availableQuestions);
-		this.availableGuesses = new ArrayList<String>(availableGuesses);
+		this.availableQuestions = new ArrayList<>(availableQuestions);
+		this.availableGuesses = new ArrayList<>(availableGuesses);
 	}
-	
+
 	@Override
 	public String getName() {
 		return this.name;
@@ -24,39 +24,47 @@ public class RandomPlayer implements Player {
 
 	@Override
 	public String getQuestion() {
-		String question = availableQuestions.remove(0);
-		System.out.println("Player: " + name + ". Asks: " + question);
-		return question;
+		int randomPos;
+		String question;
+		if (this.availableGuesses.size() > 0) {
+			randomPos = (int) Math.random() * this.availableQuestions.size();
+			question = this.availableQuestions.remove(randomPos);
+			System.out.println("Player: " + name + " Asks: " + question);
+			return question;
+		}
+		return null;
 	}
 
 	@Override
 	public String answerQuestion(String question, String character) {
 		String answer = Math.random() < 0.5 ? "Yes" : "No";
-		System.out.println("Player: " + name + ". Answers: " + answer);
+		System.out.println("Player: " + name + " Answers: " + answer);
 		return answer;
 	}
-	
 
 	@Override
 	public String answerGuess(String guess, String character) {
-		String answer = Math.random() < 0.5 ? "Yes" : "No";
-		System.out.println("Player: " + name + ". Answers: " + answer);
-		return answer;
+		String answerGuess = Math.random() < 0.5 ? "Yes" : "No";
+		System.out.println("Player: " + name + " Answer guess: " + answerGuess);
+		return answerGuess;
 	}
-
+	
 	@Override
 	public String getGuess() {
-		int randomPos = (int)(Math.random() * this.availableGuesses.size()); 
-		String guess = this.availableGuesses.remove(randomPos);
-		System.out.println("Player: " + name + ". Guesses: Am I " + guess);
-		return guess;
+		int randomPos;
+		String guess;
+		if (this.availableGuesses.size() > 0) {
+			randomPos = (int) Math.random() * this.availableGuesses.size();
+			guess = this.availableGuesses.remove(randomPos);
+			System.out.println("Player: " + name + " Guess: Am I - " + guess);
+			return guess;
+		}
+		return null;
 	}
-
+	
 	@Override
 	public boolean isReadyForGuess() {
 		return availableQuestions.isEmpty();
 	}
-
-	
 	
 }
